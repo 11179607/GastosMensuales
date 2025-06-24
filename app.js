@@ -45,6 +45,12 @@ function guardarGastos() {
 }
 
 function eliminarGasto(id) {
+  const password = prompt("Introduce la contraseña para eliminar este gasto:");
+  if (password !== "5370") {
+    alert("Contraseña incorrecta. No se ha eliminado el gasto.");
+    return;
+  }
+
   gastos = gastos.filter(g => g.id !== id);
   guardarGastos();
   renderizarGastos();
