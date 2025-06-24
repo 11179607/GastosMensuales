@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestor de Gastos</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>📊 Gestor de Gastos Mensuales</h1>
+    <form id="formulario">
+      <input type="text" id="descripcion" placeholder="Descripción del gasto" required />
+      <input type="number" id="monto" placeholder="Monto ($)" min="0.01" step="0.01" required />
+      <button type="submit">Agregar</button>
+    </form>
+
+    <section id="lista-gastos">
+      <table>
+        <thead>
+          <tr>
+            <th>Descripción</th>
+            <th>Monto</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-body"></tbody>
+      </table>
+    </section>
+
+    <footer class="total">Total del mes: $<span id="total">0.00</span></footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
