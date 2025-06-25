@@ -22,7 +22,7 @@ function verificarLogin() {
 
   document.getElementById("login").style.display = "none";
   document.querySelector("main").style.display = "block";
-  document.getElementById("bienvenida").textContent = `👋Bienvenido, ${nombre} a tu Gestor de Gastos Mensuales👋`;
+  document.getElementById("bienvenida").textContent = `👋Bienvenido ${nombre}, a tu Gestor de Gastos Mensuales👋`;
 
   renderizarGastos();
   actualizarTotal();
