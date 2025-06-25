@@ -135,3 +135,10 @@ tr:hover {
   border: 1px solid #277be9;
   border-radius: 5px;
 }
+.autor {
+  text-align: center;
+  padding: 1rem;
+  margin-top: 2rem;
+  color: #666;
+  font-size: 0.9rem;
+}
