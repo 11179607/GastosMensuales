@@ -1,54 +1,115 @@
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background: #f4f6f8;
+* {
   margin: 0;
-  padding: 2rem;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(120deg, #e0ffef 0%, #b2f7ef 100%);
+  min-height: 100vh;
+  padding: 2rem;
+  overflow-x: hidden;
+  position: relative;
+  color: #333;
+}
+
+/* Fondo animado de dinero */
+.money-bg {
+  pointer-events: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.money-icon {
+  position: absolute;
+  opacity: 0.25;
+  animation: floatMoney 12s linear infinite;
+  user-select: none;
+}
+
+@keyframes floatMoney {
+  0% {
+    transform: translateY(110vh) rotate(0deg) scale(1);
+    opacity: 0.25;
+  }
+  80% {
+    opacity: 0.25;
+  }
+  100% {
+    transform: translateY(-10vh) rotate(360deg) scale(1.2);
+    opacity: 0.1;
+  }
+}
+
+/* Contenedor principal */
 .container {
-  max-width: 800px;
+  max-width: 900px;
   margin: auto;
   background: #fff;
   padding: 2rem;
   border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 0 20px rgba(0,0,0,0.05);
+  position: relative;
+  z-index: 1;
 }
 
-h2 {
-  text-align: center;
-  color: #2c3e50;
+/* Encabezado */
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
 }
 
+#cerrarSesion {
+  background-color: #e74c3c;
+  padding: 0.6rem 1rem;
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Formulario */
 form {
   display: flex;
-  gap: 10px;
   flex-wrap: wrap;
-  margin-bottom: 1rem;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 }
 
-input, select {
-  flex: 1;
-  padding: 10px;
+form input,
+form select {
+  flex: 1 1 200px;
+  padding: 0.7rem;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 
-button {
-  background-color: #2980b9;
+form button {
+  flex: 1 1 100%;
+  padding: 0.8rem;
+  background: #3498db;
   color: white;
   border: none;
-  padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
 }
 
-button#cerrarSesion {
-  background: #e74c3c;
+form button:hover {
+  background: #2980b9;
 }
 
+/* Tabla de movimientos */
 table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 1rem;
 }
 
 th, td {
@@ -62,83 +123,109 @@ tr:hover {
   background-color: #ecf9ff;
 }
 
-.total {
+/* Totales */
+.totales {
   margin-top: 1.5rem;
   text-align: right;
   font-weight: bold;
+  font-size: 1.1rem;
 }
 
-#login {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background: #f1f3f6;
+.totales span {
+  display: inline-block;
+  min-width: 100px;
 }
 
-.login-box {
-  background: white;
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 300px;
+/* Gráfico */
+.grafico {
+  margin-top: 2rem;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 1;
 }
 
-.modal {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.4);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-}
-
-.modal-contenido {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  text-align: center;
-  box-shadow: 0 0 20px rgba(0,0,0,0.2);
-  width: 300px;
-}
-
-.modal-botones {
-  margin-top: 1rem;
-  display: flex;
-  justify-content: space-around;
-}
-
-.modal-botones button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-#cancelarCerrar, #cancelarEliminar {
-  background-color: #5261e2;
-}
-
-#confirmarCerrar, #confirmarEliminar {
-  background-color: #e74c3c;
-  color: white;
-}
-
-#modal-eliminar input {
-  padding: 10px;
-  margin-top: 0.5rem;
-  width: 100%;
-  border: 1px solid #277be9;
-  border-radius: 5px;
-}
+/* Autor */
 .autor {
   text-align: center;
   padding: 1rem;
   margin-top: 2rem;
   color: #666;
   font-size: 0.9rem;
+  z-index: 1;
+}
+
+/* Login */
+#login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.login-box {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 320px;
+  z-index: 2;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-contenido {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  width: 100%;
+  max-width: 350px;
+}
+
+.modal-contenido input {
+  padding: 10px;
+  margin: 0.7rem 0;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.modal-botones {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.modal-botones button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#confirmarEliminar, #confirmarCerrar {
+  background-color: #e74c3c;
+  color: white;
+}
+
+#cancelarEliminar, #cancelarCerrar {
+  background-color: #bdc3c7;
+  color: #333;
 }

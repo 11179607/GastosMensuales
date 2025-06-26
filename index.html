@@ -2,12 +2,12 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gestor de Gastos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gestor de Finanzas</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  
+
   <section id="login">
     <div class="login-box">
       <h2>Iniciar Sesión</h2>
@@ -18,47 +18,62 @@
     </div>
   </section>
 
-  
   <main class="container" style="display: none;">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
+    <div class="encabezado">
       <h2 id="bienvenida">👋Bienvenido👋</h2>
       <button id="cerrarSesion">Cerrar Sesión</button>
     </div>
 
     <form id="formulario">
-      <input type="text" id="descripcion" placeholder="Descripción del gasto" required />
+      <input type="text" id="descripcion" placeholder="Descripción" required />
       <input type="number" id="monto" placeholder="Monto ($)" min="0.01" step="0.01" required />
+      <select id="tipo" required>
+        <option value="">Tipo</option>
+        <option value="Ingreso">Ingreso</option>
+        <option value="Egreso">Egreso</option>
+      </select>
       <select id="categoria" required>
         <option value="">Categoría</option>
+        <option value="Salario">Salario</option>
         <option value="Comida">Comida</option>
         <option value="Transporte">Transporte</option>
         <option value="Servicios">Servicios</option>
-        <option value="Entretenimiento">Entretenimiento</option>
         <option value="Otro">Otro</option>
       </select>
       <button type="submit">Agregar</button>
     </form>
 
-    <section id="lista-gastos">
-      <table>
-        <thead>
-          <tr>
-            <th>Descripción</th>
-            <th>Monto</th>
-            <th>Categoría</th>
-            <th>Acción</th>
-          </tr>
-        </thead>
-        <tbody id="tabla-body"></tbody>
-      </table>
-    </section>
+    <table>
+      <thead>
+        <tr>
+          <th>Descripción</th>
+          <th>Monto</th>
+          <th>Tipo</th>
+          <th>Categoría</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody id="tabla-body"></tbody>
+    </table>
 
-    <footer class="total">
-      Total del mes: $<span id="total">0.00</span>
+    <div class="totales">
+       Ingresos: $<span id="totalIngresos">0.00</span><br>
+       Egresos: $<span id="totalEgresos">0.00</span>
+    </div>
+
+    <div class="grafico">
+      <canvas id="graficoCategorias"></canvas>
+    </div>
+
+    <footer class="autor">
+      Created by Marlon Carabalí ©
     </footer>
   </main>
 
-  
+  <!-- Fondo animado con íconos de dinero -->
+  <div class="money-bg" id="moneyBg"></div>
+
+  <!-- Modales -->
   <div id="modal-cerrar" class="modal">
     <div class="modal-contenido">
       <h3>¿Deseas cerrar sesión?</h3>
@@ -69,10 +84,9 @@
     </div>
   </div>
 
-  
   <div id="modal-eliminar" class="modal">
     <div class="modal-contenido">
-      <h3>Eliminar gasto</h3>
+      <h3>Eliminar movimiento</h3>
       <p>Ingresa los últimos 4 dígitos del número que usaste al iniciar sesión:</p>
       <input type="password" id="claveEliminar" maxlength="4" />
       <div class="modal-botones">
@@ -82,59 +96,22 @@
     </div>
   </div>
 
+  <!-- Librería Chart.js + Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="app.js"></script>
-  <footer class="autor">
-  Created by Marlon Carabalí ©
-</footer>
+  <script>
+    const icons = ['💵','💰','🪙','💸'];
+    const moneyBg = document.getElementById('moneyBg');
+    for (let i = 0; i < 18; i++) {
+      const el = document.createElement('span');
+      el.className = 'money-icon';
+      el.textContent = icons[Math.floor(Math.random() * icons.length)];
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.fontSize = (2 + Math.random() * 3) + 'rem';
+      el.style.animationDelay = (Math.random() * 10) + 's';
+      el.style.top = '-8vh';
+      moneyBg.appendChild(el);
+    }
+  </script>
 </body>
 </html>
-<style>
-body {
-  min-height: 100vh;
-  background: linear-gradient(120deg, #e0ffef 0%, #b2f7ef 100%);
-  overflow-x: hidden;
-  position: relative;
-}
-.money-bg {
-  pointer-events: none;
-  position: fixed;
-  top: 0; left: 0; width: 100vw; height: 100vh;
-  z-index: 0;
-  overflow: hidden;
-}
-.money-icon {
-  position: absolute;
-  font-size: 2.5rem;
-  opacity: 0.25;
-  animation: floatMoney 12s linear infinite;
-  user-select: none;
-}
-@keyframes floatMoney {
-  0% {
-    transform: translateY(110vh) rotate(0deg) scale(1);
-    opacity: 0.25;
-  }
-  80% {
-    opacity: 0.25;
-  }
-  100% {
-    transform: translateY(-10vh) rotate(360deg) scale(1.2);
-    opacity: 0.1;
-  }
-}
-</style>
-<div class="money-bg" id="moneyBg"></div>
-<script>
-const icons = ['💵','💰','🪙','💸'];
-const moneyBg = document.getElementById('moneyBg');
-for(let i=0;i<18;i++){
-  const el = document.createElement('span');
-  el.className = 'money-icon';
-  el.textContent = icons[Math.floor(Math.random()*icons.length)];
-  el.style.left = Math.random()*100 + 'vw';
-  el.style.fontSize = (2 + Math.random()*3) + 'rem';
-  el.style.animationDelay = (Math.random()*10) + 's';
-  el.style.top = '-8vh';
-  moneyBg.appendChild(el);
-}
-</script>
