@@ -2,7 +2,26 @@ let usuarioActual = "";
 let baseGastos = JSON.parse(localStorage.getItem("baseGastos")) || {};
 let gastoPendienteEliminar = null;
 let grafico = null;
+let temporizadorInactividad;
 
+// 🔐 Control de sesión e inactividad
+function iniciarContadorInactividad() {
+  const reiniciar = () => {
+    clearTimeout(temporizadorInactividad);
+    temporizadorInactividad = setTimeout(cerrarSesionPorInactividad, 5 * 60 * 1000); // 5 min
+  };
+  document.addEventListener("mousemove", reiniciar);
+  document.addEventListener("keydown", reiniciar);
+  reiniciar();
+}
+
+function cerrarSesionPorInactividad() {
+  alert("Tu sesión ha sido cerrada por inactividad.");
+  localStorage.removeItem("usuarioActual");
+  location.reload();
+}
+
+// ✔️ Login y carga inicial
 function verificarLogin() {
   const nombre = document.getElementById("nombre").value.trim();
   const apellido = document.getElementById("apellido").value.trim();
@@ -21,11 +40,12 @@ function verificarLogin() {
 
   document.getElementById("login").style.display = "none";
   document.querySelector("main").style.display = "block";
-  document.getElementById("bienvenida").textContent = `👋Bienvenido ${nombre}, a tu Gestor de Finanzas👋`;
+  document.getElementById("bienvenida").textContent = `👋Bienvenido ${nombre}, a tu Gestor de Finanzas`;
 
   renderizarGastos();
   actualizarTotales();
   actualizarGrafico();
+  iniciarContadorInactividad();
 }
 
 document.getElementById("formulario").addEventListener("submit", (e) => {
@@ -161,17 +181,9 @@ document.getElementById("confirmarCerrar").addEventListener("click", () => {
   location.reload();
 });
 
+// 👉 No cargar datos automáticamente al refrescar
 window.addEventListener("DOMContentLoaded", () => {
-  const almacenado = localStorage.getItem("usuarioActual");
-  if (almacenado && baseGastos[almacenado]) {
-    usuarioActual = almacenado;
-    document.getElementById("login").style.display = "none";
-    document.querySelector("main").style.display = "block";
-    document.getElementById("bienvenida").textContent = `👋Bienvenido de nuevo a tu Gestor de Finanzas👋`;
-    renderizarGastos();
-    actualizarTotales();
-    actualizarGrafico();
-  }
+  document.querySelector("main").style.display = "none";
 });
 
 function guardarTodo() {
